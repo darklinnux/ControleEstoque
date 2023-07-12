@@ -1,0 +1,36 @@
+#version: "3"
+version: "2"
+networks:
+  engine:
+    driver: bridge
+
+services:
+  engine-web:
+    build: '.'
+    container_name: engine-web
+    networks:
+      - engine
+    depends_on:
+      - engine-bd
+    links:
+      - engine-bd
+    ports:
+      - 5000:5000
+    restart: always
+
+  engine-bd:
+      image: postgres:14.1-alpine
+      mem_limit: 512m
+      mem_reservation: 128M
+      container_name: engine-bd
+      networks:
+      - engine
+      volumes:
+        - ./docker/services/postgres/data:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=bd
+      ports:
+        - 5432:5432
+      restart: always
