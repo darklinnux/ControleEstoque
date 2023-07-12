@@ -1,2 +1,2 @@
 #Ignora todos os arquivos do Docker
-docker/
+docker/services/postgres
