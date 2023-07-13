@@ -1,21 +1,31 @@
 #version: "3"
-version: "2"
+version: "3"
 networks:
   engine:
     driver: bridge
 
 services:
   engine-api:
-    build: '.'
+    build:
+      dockerfile_inline: |
+        FROM python:3.9.10-alpine3.14
+        WORKDIR /srv
+        RUN pip install --upgrade pip
+        RUN pip install flask
+        RUN pip install fastapi
+        RUN pip install uvicorn
+        CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0"]
     container_name: engine-api
     networks:
       - engine
+    volumes:
+      - ./backend/src:/srv
     depends_on:
       - engine-bd
     links:
       - engine-bd
     ports:
-      - 5000:5000
+      - 8000:8000
     restart: always
 
   engine-bd:

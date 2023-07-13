@@ -1,2 +1,5 @@
 #Ignora todos os arquivos do Docker
 docker/services/postgres
+
+#Ignora o arquivo Pycache
+__pycache__
