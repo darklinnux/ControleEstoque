@@ -17,7 +17,8 @@ CREATE TABLE processadores(
 CREATE TABLE memorias(
    mem_id INT GENERATED ALWAYS AS IDENTITY,
    mem_slot VARCHAR(5) NOT NULL,
-   mem_frequencia VARCHAR(10) NOT NULL,
+   mem_capacidade int not null,
+   mem_frequencia decimal,
    mem_idFabricante int NOT NULL,
    PRIMARY KEY(mem_id),
    foreign key (mem_idFabricante)
@@ -35,10 +36,9 @@ CREATE TABLE notebooks(
    not_id INT GENERATED ALWAYS AS IDENTITY,
    not_modelo VARCHAR(255) NOT NULL,
    not_serie VARCHAR(255) NOT NULL,
-   not_fabricante VARCHAR(255) NOT NULL,
    not_patrimonio varchar(25),
    not_valor decimal,
-   isSinobras boolean,
+   not_isSinobras boolean,
    not_idFabricante int NOT NULL,
    not_idProcessador int NOT NULL,
    not_idMemoria int NOT NULL,
@@ -67,6 +67,19 @@ CREATE TABLE acessorios(
    foreign key (ace_idFabricante)
       references fabricantes(fab_id)
    	ON DELETE CASCADE
+);
+
+CREATE TABLE notebookacessorios(
+   nac_id INT GENERATED ALWAYS AS IDENTITY,
+   nac_data date,
+   nac_idNotebook int not null,
+   nac_idAcessorio int not null,
+   foreign key (nac_idNotebook)
+      references notebooks(not_id)
+      ON DELETE CASCADE,
+   foreign key (nac_idAcessorio)
+      references acessorios(ace_id)
+      ON DELETE CASCADE
 );
 
 CREATE TABLE perfis(
@@ -135,10 +148,9 @@ CREATE TABLE tipotermo(
 
 CREATE TABLE termos(
    ter_id INT GENERATED ALWAYS AS IDENTITY,
-   ter_data DATETIME,
+   ter_data DATE,
    ter_idTipoTermo int not null,
    ter_idNotebook int not null,
-   ter_idAcessorios int not null,
    ter_idFuncionario int not null,
    ter_idUsuario int not null,
    foreign key (ter_idTipoTermo)
@@ -147,9 +159,6 @@ CREATE TABLE termos(
    foreign key (ter_idNotebook)
       references notebooks(not_id)
       ON DELETE CASCADE,
-   foreign key (ter_idAcessorios)
-      references acessorios(ace_id)
-      ON DELETE CASCADE,
    foreign key (ter_idFuncionario)
       references funcionarios(fun_id)
       ON DELETE CASCADE,
@@ -157,3 +166,44 @@ CREATE TABLE termos(
       references usuarios(usu_id)
       ON DELETE CASCADE
 );
+
+INSERT INTO statusnotebook (sta_nome) VALUES ('Disponivel');
+INSERT INTO statusnotebook (sta_nome) VALUES ('Indisponivel');
+
+INSERT INTO fabricantes (fab_nome) VALUES ('Dell');
+INSERT INTO fabricantes (fab_nome) VALUES ('Intel');
+INSERT INTO fabricantes (fab_nome) VALUES ('SMART');
+
+INSERT INTO processadores (pro_modelo,pro_idFabricante) VALUES ('I5', 2);
+INSERT INTO memorias (mem_frequencia,mem_capacidade,mem_slot,mem_idFabricante) VALUES (1600, 8,'DDR5',3);
+
+INSERT INTO notebooks (
+   not_valor, 
+   not_serie, 
+   not_patrimonio, 
+   not_modelo, 
+   not_isSinobras,
+   not_idStatus,
+   not_idProcessador,
+   not_idMemoria,
+   not_idFabricante) VALUES (2600, 'AS25DA', '10215','Latitude 5420', TRUE, 1,1,1,1);
+
+INSERT INTO acessorios (ace_nome, ace_modelo, ace_idFabricante) VALUES ('Mochila','Bag',1);
+
+INSERT INTO notebookacessorios (nac_data, nac_idNotebook, nac_idAcessorio) VALUES ('2023-07-21', 1, 1);
+
+
+INSERT INTO perfis(per_nome) VALUES ('Administrador');
+
+INSERT INTO usuarios (usu_nome, usu_cpf, usu_login, usu_password, usu_idPerfil) VALUES ('admin','12332112325','password',1, 1 );
+
+INSERT INTO centrocustos(cen_nome) VALUES ('TI');
+INSERT INTO departamentos (dep_nome, dep_idCentoCusto) VALUES ('Tecnologia da Informação',1);
+INSERT INTO cargos(car_nome) VALUES ('Analista');
+
+INSERT INTO funcionarios (fun_nome, fun_cpf, fun_email, fun_matricula, fun_idDerpatamento,fun_idCargo) VALUES ('Pedro Ramon', '12332112355', '6754', 1, 1, 1);
+
+INSERT INTO tipotermo(tip_nome) VALUES ('Entrega');
+INSERT INTO tipotermo(tip_nome) VALUES ('Devolução');
+
+INSERT INTO termos(ter_data, ter_idFuncionario, ter_idNotebook, ter_idTipoTermo, ter_idUsuario) VALUES ('2023-07-27',1,1,1,1);
