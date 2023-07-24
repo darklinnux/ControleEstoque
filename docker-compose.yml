@@ -7,14 +7,8 @@ networks:
 services:
   engine-api:
     build:
-      dockerfile_inline: |
-        FROM python:3.9.10-alpine3.14
-        WORKDIR /srv
-        RUN pip install --upgrade pip
-        RUN pip install flask
-        RUN pip install fastapi
-        RUN pip install uvicorn
-        CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0"]
+      context: .
+      dockerfile: ./Dockerfile-API
     container_name: engine-api
     networks:
       - engine
@@ -54,7 +48,7 @@ services:
     volumes:
       - ./docker/services/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     #- ./services/nginx/ssl:/etc/ssl
-      - ./frontend/build:/application
+      - ./frontEnd/build:/application
     environment:
       - TZ=America/Belem
     ports:
