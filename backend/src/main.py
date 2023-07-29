@@ -1,19 +1,17 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
+from dotenv import load_dotenv
+import os
+from views.FabricanteView import fabricante_router
+
+load_dotenv()
 
 app = FastAPI()
+router = APIRouter()
 
-
-@app.get("/v1")
+#print(os.getenv('DATABASE_URL'))
+@app.get("/")
 def getUsuaruis():
     return {"Version": "0.0.1"}
 
-###ROTAS USUÁRIOS###
-@app.get("/v1/users")
-def getUsuaruis():
-    return {"Version": "0.0.1"}
-
-###ROTAS NOTEBOOKS###
-@app.get("/v1/notebooks")
-def getUsuaruis():
-    return {"Version": "0.0.1"}
-
+###ROTAS FABRICANTE###
+app.include_router(fabricante_router)

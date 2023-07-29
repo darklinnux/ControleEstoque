@@ -1,7 +1,9 @@
 FROM python:3.9.10-alpine3.14
 WORKDIR /srv
 RUN pip install --upgrade pip
-RUN pip install flask
 RUN pip install fastapi
+RUN pip install sqlalchemy
 RUN pip install uvicorn
+RUN pip install asyncpg
+RUN pip install python-dotenv
 CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0"]
