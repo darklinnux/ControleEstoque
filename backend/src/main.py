@@ -2,6 +2,7 @@ from fastapi import FastAPI, APIRouter
 from dotenv import load_dotenv
 import os
 from views.FabricanteView import fabricante_router
+from views.AcessorioView import acessorio_router
 
 load_dotenv()
 
@@ -15,3 +16,4 @@ def getUsuaruis():
 
 ###ROTAS FABRICANTE###
 app.include_router(fabricante_router)
+app.include_router(acessorio_router)
