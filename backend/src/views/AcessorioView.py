@@ -1,11 +1,7 @@
 
 from typing import List
 from fastapi import APIRouter, HTTPException
-from fastapi.exceptions import ResponseValidationError
-from starlette import responses
-from database.models.FabricanteModel import FabricanteModel
 from database.models.AcessorioModel import AcessorioModel
-from schemas.FabricanteSchema import FabricanteSchemaList, FabricanteSchemaOutput, StandardOutput, ErrorOutput, FabricanteSchemaUpdate
 from schemas.AcessorioSchema import AcessorioSchemaList, AcessorioSchemaOutput, StandardOutput, ErrorOutput, AcessorioSchemaUpdate
 from services.FabricanteService import FabricanteService
 from services.AcessorioService import AcessorioService
@@ -22,40 +18,29 @@ async def acessoriosList():
 
 @acessorio_router.get('/{ace_id}')
 async def acessorioList(ace_id:int):
-    try:
-        acessorio = await AcessorioService.getById(ace_id=ace_id)
-        if not isinstance(acessorio, AcessorioModel):
-            raise Exception
-        return acessorio
-    except Exception as error:
-        raise HTTPException(status_code=406, detail={"error":"Não exisite cadastro para o ID informado"})
+    acessorio = await AcessorioService.getById(ace_id=ace_id)
+    return acessorio
     
     
 @acessorio_router.post('', description='My description', response_model=StandardOutput)
 async def acessorioInsert(acessorio_input: AcessorioSchemaOutput):
-    try:
-        await AcessorioService.insert(
+    await AcessorioService.insert(
             ace_nome=acessorio_input.ace_nome,
             ace_modelo=acessorio_input.ace_modelo,
             ace_idfabricante=acessorio_input.ace_idfabricante
             )
-        return StandardOutput(return_request=True)
-    except Exception as error:
-        raise HTTPException(400, detail=str(error))
+    return StandardOutput(return_request=True)
 
 @acessorio_router.put('', description='My description', response_model=StandardOutput)
-async def fabrincanteUpdate(fab_input: FabricanteSchemaUpdate):
-    try:
-        await FabricanteService.update(fab_id=fab_input.fab_id,fab_nome=fab_input.fab_nome)
-        return StandardOutput(return_request=True)
+async def fabrincanteUpdate(ace_input: AcessorioSchemaUpdate):
     
-    except Exception as error:
-        raise HTTPException(400, detail=str(error))
+    await AcessorioService.update(ace_id=ace_input.ace_id,ace_nome=ace_input.ace_nome, ace_modelo=ace_input.ace_modelo, ace_idfabricante=ace_input.ace_idfabricante)
+    return StandardOutput(return_request=True)
 
-@acessorio_router.delete('/{fab_id}', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
-async def fabricanteDelete(fab_id: int):
+@acessorio_router.delete('/{ace_id}', response_model=StandardOutput, responses={400: {'model': ErrorOutput}})
+async def fabricanteDelete(ace_id: int):
     try:
-        await FabricanteService.deleteFrabricante(fab_id=fab_id) 
+        await AcessorioService.deleteAcessorio(ace_id=ace_id) 
         return StandardOutput(return_request=True) 
     except Exception as error:
         raise HTTPException(400, detail=str(error))

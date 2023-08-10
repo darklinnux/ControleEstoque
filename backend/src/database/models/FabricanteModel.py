@@ -1,8 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import declarative_base
-
-
-Base = declarative_base()
+from database.connection.connection import Base
 
 class FabricanteModel(Base):
     __tablename__ = 'fabricantes'
