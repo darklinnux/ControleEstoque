@@ -10,16 +10,19 @@ acessorio_router = APIRouter(prefix='/acessorios')
 
 @acessorio_router.get('', response_model=List[AcessorioSchemaList])
 async def acessoriosList():
-    try:
+
         return await AcessorioService.selectAll()
-    except Exception as error:
-        raise HTTPException(400, detail=str(error))
+
     
 
 @acessorio_router.get('/{ace_id}')
 async def acessorioList(ace_id:int):
-    acessorio = await AcessorioService.getById(ace_id=ace_id)
-    return acessorio
+    try:
+        
+        acessorio = await AcessorioService.getById(ace_id=ace_id)
+        return acessorio
+    except Exception as error:
+        raise HTTPException(400, detail=str(error))
     
     
 @acessorio_router.post('', description='My description', response_model=StandardOutput)

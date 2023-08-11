@@ -4,17 +4,18 @@ from sqlalchemy import delete, update
 from sqlalchemy.exc import IntegrityError
 from database.models.AcessorioModel import AcessorioModel as Acessorio
 from database.connection.connection import async_session
+from database.connection.ConnectionDB import ConnectionDB
 from fastapi import HTTPException
 
 class AcessorioService:
     async def insert(ace_nome: str, ace_modelo: str, ace_idfabricante: int):
-        async with async_session() as session:
+        async with ConnectionDB() as db:
             try:
-                session.add(Acessorio(
+                db.session.add(Acessorio(
                 ace_nome=ace_nome,
                 ace_modelo=ace_modelo,
                 ace_idfabricante=ace_idfabricante))
-                await session.commit()
+                await db.session.commit()
             except IntegrityError as error:
                 raise HTTPException(417, detail={"msg":str("Não existe o id fabricante cadastrado no banco"),"error": str(error)})
                 
@@ -36,8 +37,8 @@ class AcessorioService:
             await session.commit()
 
     async def selectAll():
-        async with async_session() as session:
-            result = await session.execute(select(Acessorio).order_by(Acessorio.ace_id))
+        async with ConnectionDB() as db:
+            result = await db.session.execute(select(Acessorio).order_by(Acessorio.ace_id))
             return result.scalars().all()
     
     async def getById(ace_id:int):
