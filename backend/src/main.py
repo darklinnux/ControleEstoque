@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from views.FabricanteView import fabricante_router
 from views.AcessorioView import acessorio_router
+from views.ProcessadorView import processador_router
 
 load_dotenv()
 
@@ -17,3 +18,4 @@ def getUsuaruis():
 ###ROTAS FABRICANTE###
 app.include_router(fabricante_router)
 app.include_router(acessorio_router)
+app.include_router(processador_router)
