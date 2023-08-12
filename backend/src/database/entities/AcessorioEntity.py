@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from database.connection.connection import Base
+from database.config.base import Base
 
 class AcessorioEntity(Base):
     __tablename__ = 'acessorios'

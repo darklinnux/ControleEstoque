@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
-from database.connection.connection import Base
+from sqlalchemy import Column, Integer, String
+from database.config.base import Base
 
 class StatusNotebookEntity(Base):
     __tablename__ = 'statusnotebook'
