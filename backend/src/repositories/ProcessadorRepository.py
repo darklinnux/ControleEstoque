@@ -28,7 +28,7 @@ class ProcessadorRepository:
         except IntegrityError as error:
             raise HTTPException(417, detail={"msg":str("Não existe o id fabricante cadastrado no banco"),"error": str(error)})
         
-    async def deleteProcessador(pro_id: int):
+    async def delete(pro_id: int):
         async with ConnectionDB() as db:
             await db.session.execute(
                 delete(Processador).where(Processador.pro_id==pro_id))
@@ -39,10 +39,10 @@ class ProcessadorRepository:
             result = await db.session.execute(select(Processador).order_by(Processador.pro_id))
             return result.scalars().all()
     
-    async def getById(ace_id:int):
+    async def getById(pro_id:int):
         
         async with ConnectionDB() as db:           
-            result = await db.session.execute(select(Processador).where(Processador.ace_id==ace_id))
+            result = await db.session.execute(select(Processador).where(Processador.pro_id==pro_id))
             processador = result.scalar()
             if not isinstance(processador, Processador):
                 raise HTTPException(400, detail={"msg":str("Processador não encontrado")})

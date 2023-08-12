@@ -19,7 +19,7 @@ async def processadorList():
 
 @processador_router.get('/{pro_id}')
 async def processadorList(pro_id:int):
-    acessorio = await AcessorioRepository.getById(pro_id=pro_id)
+    acessorio = await ProcessadorRepository.getById(pro_id=pro_id)
     return acessorio
     
     
@@ -42,7 +42,7 @@ async def processadorUpdate(pro_input: ProcessadorSchemaUpdate):
 @processador_router.delete('/{pro_id}')
 async def fabricanteDelete(pro_id: int):
     try:
-        await AcessorioRepository.delete(pro_id=pro_id) 
+        await ProcessadorRepository.delete(pro_id=pro_id) 
         return {"return":bool(True)}
  
     except Exception as error:
