@@ -11,7 +11,7 @@ class AcessorioSchemaList(BaseModel):
     class Config:
         from_attributes = True
 
-class AcessorioSchemaOutput(BaseModel):
+class AcessorioSchemaInsert(BaseModel):
     ace_nome: str
     ace_modelo: str
     ace_idfabricante: int
@@ -21,9 +21,3 @@ class AcessorioSchemaUpdate(BaseModel):
     ace_nome: str
     ace_modelo: str
     ace_idfabricante: int
-    
-class StandardOutput(BaseModel):
-    return_request: bool
-
-class ErrorOutput(BaseModel):
-    detail: str

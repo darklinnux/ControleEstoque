@@ -10,7 +10,7 @@ class ProcessadorSchemaList(BaseModel):
     class Config:
         from_attributes = True
 
-class ProcessadorSchemaOutput(BaseModel):
+class ProcessadorSchemaInsert(BaseModel):
     pro_modelo: str
     pro_idfabricante: int
     
@@ -18,9 +18,3 @@ class ProcessadorSchemaUpdate(BaseModel):
     pro_id: int
     pro_modelo: str
     pro_idfabricante: int
-    
-class StandardOutput(BaseModel):
-    return_request: bool
-
-class ErrorOutput(BaseModel):
-    detail: str

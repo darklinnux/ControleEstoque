@@ -8,15 +8,10 @@ class FabricanteSchemaList(BaseModel):
     class Config:
         from_attributes = True
 
-class FabricanteSchemaOutput(BaseModel):
+class FabricanteSchemaInsert(BaseModel):
     fab_nome: str
     
 class FabricanteSchemaUpdate(BaseModel):
     fab_id: int
     fab_nome: str
     
-class StandardOutput(BaseModel):
-    return_request: bool
-
-class ErrorOutput(BaseModel):
-    detail: str
