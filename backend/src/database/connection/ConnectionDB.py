@@ -21,4 +21,4 @@ class ConnectionDB:
         return self
     
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        self.session.close()
+        await self.session.close()

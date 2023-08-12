@@ -6,7 +6,7 @@ from database.entities.ProcessadoresEntity import ProcessadorEntity as Processad
 from database.connection.ConnectionDB import ConnectionDB
 from fastapi import HTTPException
 
-class ProcessadorService:
+class ProcessadorRepository:
     async def insert(pro_modelo: str, pro_idfabricante: int):
         async with ConnectionDB() as db:
             try:

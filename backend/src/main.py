@@ -18,4 +18,4 @@ def getUsuaruis():
 ###ROTAS FABRICANTE###
 app.include_router(fabricante_router)
 app.include_router(acessorio_router)
-#app.include_router(processador_router)
+app.include_router(processador_router)

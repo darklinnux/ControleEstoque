@@ -3,45 +3,47 @@ from typing import List
 from fastapi import APIRouter, HTTPException
 from database.entities.AcessorioEntity import AcessorioEntity
 from schemas.AcessorioSchema import AcessorioSchemaList, AcessorioSchemaInsert, AcessorioSchemaUpdate
-from schemas.ProcessadorSchema import ProcessadorSchemaList, ProcessadorSchemaOutput, ProcessadorSchemaUpdate
+from schemas.ProcessadorSchema import ProcessadorSchemaList, ProcessadorSchemaInsert, ProcessadorSchemaUpdate
 from repositories.AcessorioRepository import AcessorioRepository
-from repositories.ProcessadorRepository import ProcessadorService
+from repositories.ProcessadorRepository import ProcessadorRepository
 
 processador_router = APIRouter(prefix='/processadores')
 
 @processador_router.get('', response_model=List[ProcessadorSchemaList])
 async def processadorList():
     try:
-        return await ProcessadorService.selectAll()
+        return await ProcessadorRepository.selectAll()
     except Exception as error:
         raise HTTPException(400, detail=str(error))
     
 
-@processador_router.get('/{ace_id}')
-async def acessorioList(ace_id:int):
-    acessorio = await AcessorioRepository.getById(ace_id=ace_id)
+@processador_router.get('/{pro_id}')
+async def processadorList(pro_id:int):
+    acessorio = await AcessorioRepository.getById(pro_id=pro_id)
     return acessorio
     
     
 @processador_router.post('')
-async def acessorioInsert(acessorio_input: AcessorioSchemaInsert):
-    await AcessorioRepository.insert(
-            ace_nome=acessorio_input.ace_nome,
-            ace_modelo=acessorio_input.ace_modelo,
-            ace_idfabricante=acessorio_input.ace_idfabricante
+async def processadorInsert(processador_input: ProcessadorSchemaInsert):
+    await ProcessadorRepository.insert(
+            pro_modelo=processador_input.pro_modelo,
+            pro_idfabricante=processador_input.pro_idfabricante
             )
-    return StandardOutput(return_request=True)
+    return {"return":bool(True)}
+
 
 @processador_router.put('')
-async def fabrincanteUpdate(ace_input: AcessorioSchemaUpdate):
+async def processadorUpdate(pro_input: ProcessadorSchemaUpdate):
     
-    await AcessorioRepository.update(ace_id=ace_input.ace_id,ace_nome=ace_input.ace_nome, ace_modelo=ace_input.ace_modelo, ace_idfabricante=ace_input.ace_idfabricante)
-    return StandardOutput(return_request=True)
+    await ProcessadorRepository.update(pro_id=pro_input.pro_id,pro_modelo=pro_input.pro_modelo, pro_idfabricante=pro_input.pro_idfabricante)
+    return {"return":bool(True)}
 
-@processador_router.delete('/{ace_id}')
-async def fabricanteDelete(ace_id: int):
+
+@processador_router.delete('/{pro_id}')
+async def fabricanteDelete(pro_id: int):
     try:
-        await AcessorioRepository.delete(ace_id=ace_id) 
-        return StandardOutput(return_request=True) 
+        await AcessorioRepository.delete(pro_id=pro_id) 
+        return {"return":bool(True)}
+ 
     except Exception as error:
         raise HTTPException(400, detail=str(error))
