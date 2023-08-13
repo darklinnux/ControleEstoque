@@ -18,7 +18,6 @@ CREATE TABLE memorias(
    mem_id INT GENERATED ALWAYS AS IDENTITY,
    mem_slot VARCHAR(5) NOT NULL,
    mem_capacidade int not null,
-   mem_frequencia decimal,
    mem_idFabricante int NOT NULL,
    PRIMARY KEY(mem_id),
    foreign key (mem_idFabricante)
@@ -32,17 +31,23 @@ CREATE TABLE statusnotebook(
    PRIMARY KEY(sta_id)
 );
 
+CREATE TABLE proprietarios(
+   pno_id INT GENERATED ALWAYS AS IDENTITY,
+   pno_nome VARCHAR(255) NOT NULL,
+   PRIMARY KEY (pno_id)
+);
+
 CREATE TABLE notebooks(
    not_id INT GENERATED ALWAYS AS IDENTITY,
    not_modelo VARCHAR(255) NOT NULL,
    not_serie VARCHAR(255) NOT NULL,
    not_patrimonio varchar(25),
    not_valor decimal,
-   not_isSinobras boolean,
    not_idFabricante int NOT NULL,
    not_idProcessador int NOT NULL,
    not_idMemoria int NOT NULL,
    not_idStatus int NOT NULL,
+   not_idProprietario int NOT NULL,
    PRIMARY KEY(not_id),
    foreign key (not_idFabricante)
       references fabricantes(fab_id)
@@ -55,6 +60,9 @@ CREATE TABLE notebooks(
       ON DELETE CASCADE,
    foreign key (not_idStatus)
       references statusnotebook(sta_id)
+      ON DELETE CASCADE,
+   foreign key (not_idproprietario)
+      references proprietarios(pno_id)
       ON DELETE CASCADE
 );
 
@@ -175,18 +183,22 @@ INSERT INTO fabricantes (fab_nome) VALUES ('Intel');
 INSERT INTO fabricantes (fab_nome) VALUES ('SMART');
 
 INSERT INTO processadores (pro_modelo,pro_idFabricante) VALUES ('I5', 2);
-INSERT INTO memorias (mem_frequencia,mem_capacidade,mem_slot,mem_idFabricante) VALUES (1600, 8,'DDR5',3);
+
+INSERT INTO proprietarios (pno_nome) VALUES ('SimPress');
+INSERT INTO proprietarios (pno_nome) VALUES ('Arklook');
+
+INSERT INTO memorias (mem_capacidade,mem_slot,mem_idFabricante) VALUES (8,'DDR5',3);
 
 INSERT INTO notebooks (
    not_valor, 
    not_serie, 
    not_patrimonio, 
-   not_modelo, 
-   not_isSinobras,
+   not_modelo,
    not_idStatus,
    not_idProcessador,
    not_idMemoria,
-   not_idFabricante) VALUES (2600, 'AS25DA', '10215','Latitude 5420', TRUE, 1,1,1,1);
+   not_idFabricante,
+   not_idProprietario) VALUES (2600, 'AS25DA', '10215','Latitude 5420', 1,1,1,1,1);
 
 INSERT INTO acessorios (ace_nome, ace_modelo, ace_idFabricante) VALUES ('Mochila','Bag',1);
 
