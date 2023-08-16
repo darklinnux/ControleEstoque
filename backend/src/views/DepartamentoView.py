@@ -2,7 +2,6 @@
 from typing import List
 from fastapi import APIRouter, HTTPException
 from schemas.DepartamentoSchema import DepartamentoSchema, DepartamentoSchemaInsert, DepartamentoSchemaUpdate
-from repositories.ProcessadorRepository import ProcessadorRepository
 from repositories.DepartamentoRepository import DepartamentoRepository
 
 departamento_router = APIRouter(prefix='/departamentos')
@@ -38,7 +37,7 @@ async def departamentoUpdate(dep_id: DepartamentoSchemaUpdate):
 
 
 @departamento_router.delete('/{dep_id}')
-async def fabricanteDelete(dep_id: int):
+async def departamentoDelete(dep_id: int):
     try:
         await DepartamentoRepository.delete(dep_id=dep_id) 
         return {"return":bool(True)}

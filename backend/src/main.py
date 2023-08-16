@@ -8,6 +8,7 @@ from views.MemoriaView import memoria_router
 from views.ProprietarioView import proprietario_router
 from views.CentroCustoView import centroCusto_router
 from views.DepartamentoView import departamento_router
+from views.CargoView import cargo_router
 
 load_dotenv()
 
@@ -27,3 +28,4 @@ app.include_router(memoria_router)
 app.include_router(proprietario_router)
 app.include_router(centroCusto_router)
 app.include_router(departamento_router)
+app.include_router(cargo_router)
