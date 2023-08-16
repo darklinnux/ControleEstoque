@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from typing import List
-from schemas.FabricanteSchema import FabricanteSchemaList as Fabricante
+from schemas.CentroCustoSchema import CentroCustoSchema as CentroCusto
 
 class DepartamentoSchema(BaseModel):
     dep_id: int
     dep_nome: str
     dep_idcentocusto: int
+    centrocusto: CentroCusto
     class Config:
         from_attributes = True
 
