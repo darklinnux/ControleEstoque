@@ -2,7 +2,6 @@ from sqlalchemy.ext.asyncio.session import async_session
 from sqlalchemy.future import select
 from sqlalchemy import delete, update
 from sqlalchemy.exc import IntegrityError
-from database.entities.AcessorioEntity import AcessorioEntity as Acessorio
 from database.connection.ConnectionDB import ConnectionDB
 from database.entities.FuncionarioEntity import FuncionarioEntity as Funcionario
 from fastapi import HTTPException
